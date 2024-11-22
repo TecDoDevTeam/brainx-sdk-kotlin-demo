@@ -13,16 +13,16 @@ import com.td.core.TDSDK
 class DemoActivity : AppCompatActivity() {
 
     companion object {
-        const val APP_ID = 1000019
-        const val BANNER_320_50_UNIT_ID = "1000000178"
-        const val BANNER_300_250_UNIT_ID = "1000000003"
-        const val BANNER_320_90_UNIT_ID = "1000000004"
-        const val BANNER_728_90_UNIT_ID = "1000000005"
-        const val BANNER_800_600_UNIT_ID = "1000000006"
-        const val SPLASH_UNIT_ID = "1000000001"
-        const val INTER_UNIT_ID = "1000000176"
+        const val APP_ID = 1000001
+        const val BANNER_320_50_UNIT_ID = "1000000001"
+        const val BANNER_300_250_UNIT_ID = "1000000002"
+        const val BANNER_320_90_UNIT_ID = "1000000003"
+        const val BANNER_728_90_UNIT_ID = "1000000004"
+        const val BANNER_800_600_UNIT_ID = "1000000005"
+        const val SPLASH_UNIT_ID = "1000000006"
+        const val INTER_UNIT_ID = "1000000008"
         const val REWARD_VIDEO_UNIT_ID = "1000000019"
-        const val NATIVE_UNIT_ID = "1000000019"
+        const val NATIVE_UNIT_ID = "1000000194"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
