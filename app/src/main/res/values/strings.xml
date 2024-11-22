@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">TecDoSDK</string>
+    <string name="init_sdk">INIT SDK</string>
+    <string name="banner">BANNER</string>
+    <string name="splash">SPLASH</string>
+    <string name="brain_x">Brain X</string>
+    <string name="_320_50">320 * 50</string>
+    <string name="_300_250">300 * 250</string>
+    <string name="_320_90">320 * 90</string>
+    <string name="_728_90">728 * 90</string>
+    <string name="_800_600">800 * 600</string>
+    <string name="choose_size_to_load">Choose Size To Load</string>
+    <string name="load_and_show_in_view">Load and show in View</string>
+    <string name="load_and_show_in_activity">Load and show in activity</string>
+    <string name="gdpr">GDPR</string>
+    <string name="coppa">COPPA</string>
+    <string name="ccpa">CCPA</string>
+    <string name="show_rewardvideo">Show RewardVideo</string>
+    <string name="load_rewardvideo">Load RewardVideo</string>
+    <string name="reward_video">REWARD VIDEO</string>
+    <string name="load_interstitial">Load Interstitial</string>
+    <string name="show_interstitial">Show Interstitial</string>
+    <string name="interstitial">INTERSTITIAL</string>
+    <string name="nativead">NATIVE</string>
+    <string name="load_template_native">Load Template Native</string>
+    <string name="load_self_rendering_native">Load Self Rendering Native</string>
+</resources>

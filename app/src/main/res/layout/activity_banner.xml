@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.td.demo.BannerActivity">
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:src="@drawable/icon_back"
+        android:paddingEnd="20dp"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_choose_size"
+        android:text="@string/choose_size_to_load"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/btn_back"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/btn_320_50"
+        style="@style/BrainX_Button"
+        android:text="@string/_320_50"
+        android:paddingVertical="10dp"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/btn_300_250"
+        style="@style/BrainX_Button"
+        android:text="@string/_300_250"
+        android:paddingVertical="10dp"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/btn_320_90"
+        style="@style/BrainX_Button"
+        android:text="@string/_320_90"
+        android:paddingVertical="10dp"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/btn_728_90"
+        style="@style/BrainX_Button"
+        android:text="@string/_728_90"
+        android:paddingVertical="10dp"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/btn_800_600"
+        style="@style/BrainX_Button"
+        android:text="@string/_800_600"
+        android:paddingVertical="10dp"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        app:flow_wrapMode="aligned"
+        app:flow_verticalGap="20dp"
+        app:flow_maxElementsWrap="3"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_choose_size"
+        app:constraint_referenced_ids="btn_300_250, btn_320_50, btn_320_90, btn_728_90, btn_800_600"/>
+
+    <FrameLayout
+        android:id="@+id/container_banner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
