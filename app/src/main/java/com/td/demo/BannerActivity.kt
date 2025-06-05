@@ -28,27 +28,27 @@ class BannerActivity : AppCompatActivity(), TDBannerLoadListener {
         }
         findViewById<TextView>(R.id.btn_320_50).apply {
             setOnClickListener {
-                TDBanner.load(DemoActivity.BANNER_320_50_UNIT_ID, TDBannerConfig(TDBannerConfig.BannerSize.W_320_H_50), this@BannerActivity)
+                TDBanner.load(DemoActivity.BANNER_320_50_UNIT_ID, TDBannerConfig(), this@BannerActivity)
             }
         }
         findViewById<TextView>(R.id.btn_300_250).apply {
             setOnClickListener {
-                TDBanner.load(DemoActivity.BANNER_300_250_UNIT_ID, TDBannerConfig(TDBannerConfig.BannerSize.W_300_H_250), this@BannerActivity)
+                TDBanner.load(DemoActivity.BANNER_300_250_UNIT_ID, TDBannerConfig(), this@BannerActivity)
             }
         }
         findViewById<TextView>(R.id.btn_320_90).apply {
             setOnClickListener {
-                TDBanner.load(DemoActivity.BANNER_320_90_UNIT_ID, TDBannerConfig(TDBannerConfig.BannerSize.W_320_H_90), this@BannerActivity)
+                TDBanner.load(DemoActivity.BANNER_320_90_UNIT_ID, TDBannerConfig(), this@BannerActivity)
             }
         }
         findViewById<TextView>(R.id.btn_728_90).apply {
             setOnClickListener {
-                TDBanner.load(DemoActivity.BANNER_728_90_UNIT_ID, TDBannerConfig(TDBannerConfig.BannerSize.W_728_H_90), this@BannerActivity)
+                TDBanner.load(DemoActivity.BANNER_728_90_UNIT_ID, TDBannerConfig(), this@BannerActivity)
             }
         }
         findViewById<TextView>(R.id.btn_800_600).apply {
             setOnClickListener {
-                TDBanner.load(DemoActivity.BANNER_800_600_UNIT_ID, TDBannerConfig(TDBannerConfig.BannerSize.W_800_H_600), this@BannerActivity)
+                TDBanner.load(DemoActivity.BANNER_800_600_UNIT_ID, TDBannerConfig(), this@BannerActivity)
             }
         }
     }
