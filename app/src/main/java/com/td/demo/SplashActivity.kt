@@ -8,15 +8,18 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.td.core.TDError
 import com.td.out.TDSplash
+import com.td.out.TDSplashAd
+import com.td.out.TDSplashAdListener
 import com.td.out.TDSplashConfig
-import com.td.out.TDSplashEventListener
-import com.td.out.TDSplashLoadListener
 
-class SplashActivity : AppCompatActivity(), TDSplashLoadListener {
+class SplashActivity : AppCompatActivity(), TDSplashAdListener {
+
+    private val splashAd = TDSplashAd(DemoActivity.SPLASH_UNIT_ID, TDSplashConfig())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        splashAd.setListener(this)
         initView()
     }
 
@@ -28,7 +31,7 @@ class SplashActivity : AppCompatActivity(), TDSplashLoadListener {
             setOnClickListener { finish() }
         }
         findViewById<TextView>(R.id.btn_load).apply {
-            setOnClickListener { TDSplash.load(DemoActivity.SPLASH_UNIT_ID, TDSplashConfig(), this@SplashActivity) }
+            setOnClickListener { splashAd.load() }
         }
         findViewById<TextView>(R.id.btn_load_in_activity).apply {
             setOnClickListener {
@@ -38,27 +41,34 @@ class SplashActivity : AppCompatActivity(), TDSplashLoadListener {
         }
     }
 
+    override fun onAdShowed() {
+        Logger.dt(this@SplashActivity, "splash on showed")
+    }
+
+    override fun onAdDismissed() {
+        Logger.dt(this@SplashActivity, "splash on dismissed")
+        finish()
+    }
+
+    override fun onAdClicked() {
+        Logger.dt(this@SplashActivity, "splash on clicked")
+    }
+
+    override fun onAdShowedFail(error: TDError) {
+        Logger.et(this@SplashActivity, "on splash showed fail")
+    }
+
     override fun onAdLoaded(ad: TDSplash) {
         Logger.dt(this, "on splash load success")
-        ad.setEventListener(object : TDSplashEventListener {
-            override fun onAdShowed() {
-                Logger.dt(this@SplashActivity, "splash on showed")
-            }
-
-            override fun onAdDismissed() {
-                Logger.dt(this@SplashActivity, "splash on dismissed")
-                finish()
-            }
-
-            override fun onAdClicked() {
-                Logger.dt(this@SplashActivity, "splash on clicked")
-            }
-        })
-        container.addView(ad.getAdView())
+        splashAd.show(container)
     }
 
     override fun onError(error: TDError) {
         Logger.dt(this, "on splash load error: ${error.msg}")
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        splashAd.destroy()
+    }
 }

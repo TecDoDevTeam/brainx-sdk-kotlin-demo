@@ -15,11 +15,13 @@ import com.bumptech.glide.Glide
 import com.td.core.TDError
 import com.td.nativead.TDNativeView
 import com.td.out.TDNative
+import com.td.out.TDNativeAd
+import com.td.out.TDNativeAdListener
 import com.td.out.TDNativeConfig
-import com.td.out.TDNativeEventListener
-import com.td.out.TDNativeLoadListener
 
-class NativeActivity: AppCompatActivity(), TDNativeLoadListener {
+class NativeActivity: AppCompatActivity(), TDNativeAdListener {
+
+    private var nativeAd: TDNativeAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +29,6 @@ class NativeActivity: AppCompatActivity(), TDNativeLoadListener {
         initView()
     }
 
-    private var needSelfRendering = false
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var container: FrameLayout
 
@@ -38,57 +39,63 @@ class NativeActivity: AppCompatActivity(), TDNativeLoadListener {
         }
         findViewById<TextView>(R.id.btn_load_template_rendering).apply {
             setOnClickListener {
-                needSelfRendering = false
-                TDNative.load(DemoActivity.NATIVE_UNIT_ID, TDNativeConfig(TDNativeConfig.NativeType.TEMPLATE_RENDERING), this@NativeActivity)
+                loadNativeAd(TDNativeConfig.NativeType.TEMPLATE_RENDERING)
             }
         }
         findViewById<TextView>(R.id.btn_load_self_rendering).apply {
             setOnClickListener {
-                needSelfRendering = true
-                TDNative.load(DemoActivity.NATIVE_UNIT_ID, TDNativeConfig(TDNativeConfig.NativeType.SELF_RENDERING), this@NativeActivity)
+                loadNativeAd(TDNativeConfig.NativeType.SELF_RENDERING)
             }
         }
     }
 
-    override fun onAdLoaded(tdNative: TDNative) {
+    private fun loadNativeAd(type: TDNativeConfig.NativeType) {
         container.removeAllViews()
-        Logger.dt(this@NativeActivity, "on native load success")
-        tdNative.setEventListener(object : TDNativeEventListener {
-            override fun onRenderSuccess(view: TDNativeView) {
-                Logger.dt(this@NativeActivity, "on native template render success")
-                container.addView(view)
-            }
+        nativeAd?.destroy()
 
-            override fun onRenderFail() {
-                Logger.dt(this@NativeActivity, "on native template render fail")
-            }
+        val ad = TDNativeAd(DemoActivity.NATIVE_UNIT_ID, TDNativeConfig(type))
+        nativeAd = ad
+        ad.setListener(this)
+        ad.load()
+    }
 
-            override fun onAdShowed() {
-                Logger.dt(this@NativeActivity, "on native show")
-            }
+    override fun onRenderSuccess(view: TDNativeView) {
+        Logger.dt(this@NativeActivity, "on native template render success")
+        container.addView(view)
+    }
 
-            override fun onAdDismissed() {
-                Logger.dt(this@NativeActivity, "on native dismissed")
-            }
+    override fun onRenderFail(error: TDError) {
+        Logger.dt(this@NativeActivity, "on native template render fail $error")
+    }
 
-            override fun onAdClicked() {
-                Logger.dt(this@NativeActivity, "on native clicked")
-            }
-        })
-        if (needSelfRendering) {
-            selfRenderNative(tdNative)
-        } else {
-            tdNative.renderForTemplate(this@NativeActivity)
+    override fun onAdShowed() {
+        Logger.dt(this@NativeActivity, "on native show")
+    }
+
+    override fun onAdDismissed() {
+        Logger.dt(this@NativeActivity, "on native dismissed")
+    }
+
+    override fun onAdClicked() {
+        Logger.dt(this@NativeActivity, "on native clicked")
+    }
+
+    override fun onAdLoaded(ad: TDNative) {
+        when (nativeAd?.renderType) {
+            TDNativeConfig.NativeType.TEMPLATE_RENDERING -> nativeAd!!.renderForTemplate(this)
+            TDNativeConfig.NativeType.SELF_RENDERING -> selfRenderNative(nativeAd!!, ad)
+            else -> { /* should not happened */ }
         }
+        Logger.dt(this@NativeActivity, "on native load success")
     }
 
     override fun onError(error: TDError) {
         Logger.dt(this@NativeActivity, "on native load fail: ${error.msg}")
     }
 
-    private fun selfRenderNative(nativeAd: TDNative) {
+    private fun selfRenderNative(nativeAd: TDNativeAd, ad: TDNative) {
         handler.post {
-            formSelfRenderingView(nativeAd) { container, creativeViews, dislikeView ->
+            formSelfRenderingView(ad) { container, creativeViews, dislikeView ->
                 val result = nativeAd.bindViewsForInteraction(container, creativeViews, dislikeView)
                 Logger.dt(this@NativeActivity, "on native self render bind ${if (result) "success" else "fail"}")
                 if (result) {
@@ -138,4 +145,8 @@ class NativeActivity: AppCompatActivity(), TDNativeLoadListener {
         formCallback.invoke(container, creativeViews, dislikeView)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        nativeAd?.destroy()
+    }
 }

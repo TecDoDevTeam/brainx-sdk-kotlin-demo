@@ -7,11 +7,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.td.core.TDError
 import com.td.out.TDBanner
+import com.td.out.TDBannerAdListener
+import com.td.out.TDBannerAdView
 import com.td.out.TDBannerConfig
-import com.td.out.TDBannerEventListener
-import com.td.out.TDBannerLoadListener
 
-class BannerActivity : AppCompatActivity(), TDBannerLoadListener {
+class BannerActivity : AppCompatActivity(), TDBannerAdListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +21,8 @@ class BannerActivity : AppCompatActivity(), TDBannerLoadListener {
 
     private lateinit var container: FrameLayout
 
+    private var bannerAd: TDBannerAdView? = null
+
     private fun initView() {
         container = findViewById(R.id.container_banner)
         findViewById<ImageView>(R.id.btn_back).apply {
@@ -28,52 +30,64 @@ class BannerActivity : AppCompatActivity(), TDBannerLoadListener {
         }
         findViewById<TextView>(R.id.btn_320_50).apply {
             setOnClickListener {
-                TDBanner.load(DemoActivity.BANNER_320_50_UNIT_ID, TDBannerConfig(), this@BannerActivity)
+                loadAd(DemoActivity.BANNER_320_50_UNIT_ID)
             }
         }
         findViewById<TextView>(R.id.btn_300_250).apply {
             setOnClickListener {
-                TDBanner.load(DemoActivity.BANNER_300_250_UNIT_ID, TDBannerConfig(), this@BannerActivity)
+                loadAd(DemoActivity.BANNER_300_250_UNIT_ID)
             }
         }
         findViewById<TextView>(R.id.btn_320_90).apply {
             setOnClickListener {
-                TDBanner.load(DemoActivity.BANNER_320_90_UNIT_ID, TDBannerConfig(), this@BannerActivity)
+                loadAd(DemoActivity.BANNER_320_90_UNIT_ID)
             }
         }
         findViewById<TextView>(R.id.btn_728_90).apply {
             setOnClickListener {
-                TDBanner.load(DemoActivity.BANNER_728_90_UNIT_ID, TDBannerConfig(), this@BannerActivity)
+                loadAd(DemoActivity.BANNER_728_90_UNIT_ID)
             }
         }
         findViewById<TextView>(R.id.btn_800_600).apply {
             setOnClickListener {
-                TDBanner.load(DemoActivity.BANNER_800_600_UNIT_ID, TDBannerConfig(), this@BannerActivity)
+                loadAd(DemoActivity.BANNER_800_600_UNIT_ID)
             }
         }
     }
 
-    override fun onAdLoaded(ad: TDBanner) {
+    private fun loadAd(unitId: String) {
+        bannerAd?.destroy()
         container.removeAllViews()
+
+        val adView = TDBannerAdView(this, unitId, TDBannerConfig())
+        bannerAd = adView
+        adView.setListener(this)
+        adView.load()
+        container.addView(adView)
+    }
+
+    override fun onAdLoaded(ad: TDBanner) {
         Logger.dt(this@BannerActivity, "on banner load success")
-        ad.setEventListener(object : TDBannerEventListener {
-            override fun onAdShowed() {
-                Logger.dt(this@BannerActivity, "on banner showed")
-            }
+    }
 
-            override fun onAdDismissed() {
-                Logger.dt(this@BannerActivity, "on banner dismissed")
-            }
+    override fun onAdShowed() {
+        Logger.dt(this@BannerActivity, "on banner show")
+    }
 
-            override fun onAdClicked() {
-                Logger.dt(this@BannerActivity, "on banner clicked")
-            }
-        })
-        container.addView(ad.getAdView())
+    override fun onAdDismissed() {
+        Logger.dt(this@BannerActivity, "on banner dismissed")
+    }
+
+    override fun onAdClicked() {
+        Logger.dt(this@BannerActivity, "on banner clicked")
     }
 
     override fun onError(error: TDError) {
         Logger.dt(this@BannerActivity, "on banner load fail: ${error.msg}")
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        bannerAd?.destroy()
+    }
 }

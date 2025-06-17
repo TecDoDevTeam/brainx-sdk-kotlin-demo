@@ -7,15 +7,17 @@ import androidx.appcompat.app.AppCompatActivity
 import com.td.core.TDError
 import com.td.out.TDRewardItem
 import com.td.out.TDRewardVideo
+import com.td.out.TDRewardVideoAd
+import com.td.out.TDRewardVideoAdListener
 import com.td.out.TDRewardVideoConfig
-import com.td.out.TDRewardVideoEventListener
-import com.td.out.TDRewardVideoLoadListener
 
-class RewardActivity: AppCompatActivity(), TDRewardVideoLoadListener {
+class RewardActivity : AppCompatActivity(), TDRewardVideoAdListener {
+    private val rewardAd = TDRewardVideoAd(DemoActivity.REWARD_VIDEO_UNIT_ID, TDRewardVideoConfig("user:tecdo"))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reward)
+        rewardAd.setListener(this)
         initView()
     }
 
@@ -25,51 +27,52 @@ class RewardActivity: AppCompatActivity(), TDRewardVideoLoadListener {
         }
         findViewById<TextView>(R.id.btn_load).apply {
             setOnClickListener {
-                TDRewardVideo.load(DemoActivity.REWARD_VIDEO_UNIT_ID, TDRewardVideoConfig(), this@RewardActivity)
+                rewardAd.load()
             }
         }
         findViewById<TextView>(R.id.btn_show).apply {
             setOnClickListener {
-                rewardVideo?.show()
+                if (rewardAd.isReady) {
+                    rewardAd.show()
+                }
             }
         }
     }
 
-    private var rewardVideo: TDRewardVideo? = null
-
     override fun onAdLoaded(ad: TDRewardVideo) {
         Logger.dt(this, "on reward video load success")
-        rewardVideo = ad.apply {
-            setEventListener(object : TDRewardVideoEventListener {
-                override fun onAdShowedFail(error: TDError) {
-                    Logger.dt(this@RewardActivity, "on reward video on ad showed fail $error")
-                }
-
-                override fun onRewardedSuccess(rewardItem: TDRewardItem) {
-                    Logger.dt(this@RewardActivity, "on reward video on rewarded success $rewardItem")
-                }
-
-                override fun onRewardedFail() {
-                    Logger.dt(this@RewardActivity, "on reward video on rewarded fail")
-                }
-
-                override fun onAdShowed() {
-                    Logger.dt(this@RewardActivity, "on reward video on ad showed")
-                }
-
-                override fun onAdDismissed() {
-                    Logger.dt(this@RewardActivity, "on reward video on ad dismissed")
-                }
-
-                override fun onAdClicked() {
-                    Logger.dt(this@RewardActivity, "on reward video on ad clicked")
-                }
-            })
-        }
     }
 
     override fun onError(error: TDError) {
         Logger.dt(this, "on reward video load error: ${error.msg}")
     }
 
+    override fun onAdShowedFail(error: TDError) {
+        Logger.dt(this@RewardActivity, "on reward video on ad showed fail $error")
+    }
+
+    override fun onRewardedSuccess(rewardItem: TDRewardItem) {
+        Logger.dt(this@RewardActivity, "on reward video on rewarded success $rewardItem")
+    }
+
+    override fun onRewardedFail() {
+        Logger.dt(this@RewardActivity, "on reward video on rewarded fail")
+    }
+
+    override fun onAdShowed() {
+        Logger.dt(this@RewardActivity, "on reward video on ad showed")
+    }
+
+    override fun onAdDismissed() {
+        Logger.dt(this@RewardActivity, "on reward video on ad dismissed")
+    }
+
+    override fun onAdClicked() {
+        Logger.dt(this@RewardActivity, "on reward video on ad clicked")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        rewardAd.destroy()
+    }
 }
