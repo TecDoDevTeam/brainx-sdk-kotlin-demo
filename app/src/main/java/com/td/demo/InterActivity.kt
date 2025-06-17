@@ -6,15 +6,18 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.td.core.TDError
 import com.td.out.TDInterstitial
+import com.td.out.TDInterstitialAd
+import com.td.out.TDInterstitialAdListener
 import com.td.out.TDInterstitialConfig
-import com.td.out.TDInterstitialEventListener
-import com.td.out.TDInterstitialLoadListener
 
-class InterActivity: AppCompatActivity(), TDInterstitialLoadListener {
+class InterActivity : AppCompatActivity(), TDInterstitialAdListener {
+
+    private val interstitialAd = TDInterstitialAd(DemoActivity.INTER_UNIT_ID, TDInterstitialConfig())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inter)
+        interstitialAd.setListener(this)
         initView()
     }
 
@@ -24,43 +27,45 @@ class InterActivity: AppCompatActivity(), TDInterstitialLoadListener {
         }
         findViewById<TextView>(R.id.btn_load).apply {
             setOnClickListener {
-                TDInterstitial.load(DemoActivity.INTER_UNIT_ID, TDInterstitialConfig(), this@InterActivity)
+                interstitialAd.load()
             }
         }
         findViewById<TextView>(R.id.btn_show).apply {
             setOnClickListener {
-                inter?.show()
+                if (interstitialAd.isReady) {
+                    interstitialAd.show()
+                }
             }
         }
     }
 
-    private var inter: TDInterstitial? = null
-
     override fun onAdLoaded(ad: TDInterstitial) {
         Logger.dt(this, "on inter load success")
-        inter = ad.apply {
-            setEventListener(object : TDInterstitialEventListener {
-                override fun onAdShowedFail(error: TDError) {
-                    Logger.dt(this@InterActivity, "on inter on ad showed fail $error")
-                }
-
-                override fun onAdShowed() {
-                    Logger.dt(this@InterActivity, "on inter on ad showed")
-                }
-
-                override fun onAdDismissed() {
-                    Logger.dt(this@InterActivity, "on inter on ad dismissed")
-                }
-
-                override fun onAdClicked() {
-                    Logger.dt(this@InterActivity, "on inter on ad clicked")
-                }
-            })
-        }
+        // interstitialAd.show()
     }
 
     override fun onError(error: TDError) {
         Logger.dt(this, "on inter load error: ${error.msg}")
     }
 
+    override fun onAdShowedFail(error: TDError) {
+        Logger.dt(this@InterActivity, "on inter on ad showed fail $error")
+    }
+
+    override fun onAdShowed() {
+        Logger.dt(this@InterActivity, "on inter on ad showed")
+    }
+
+    override fun onAdDismissed() {
+        Logger.dt(this@InterActivity, "on inter on ad dismissed")
+    }
+
+    override fun onAdClicked() {
+        Logger.dt(this@InterActivity, "on inter on ad clicked")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        interstitialAd.destroy()
+    }
 }
