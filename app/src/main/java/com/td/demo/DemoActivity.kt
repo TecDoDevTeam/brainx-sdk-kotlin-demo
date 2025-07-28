@@ -1,11 +1,11 @@
 package com.td.demo
 
-import android.content.Intent
 import com.td.core.TDConfig
 import com.td.core.TDError
 import com.td.core.TDSDK
 import com.td.demo.base.ViewBindingActivity
 import com.td.demo.databinding.ActivityDemoBinding
+import com.td.demo.utils.startActivity
 
 class DemoActivity : ViewBindingActivity<ActivityDemoBinding>() {
 
@@ -42,25 +42,10 @@ class DemoActivity : ViewBindingActivity<ActivityDemoBinding>() {
                 }
             )
         }
-        binding.btnBanner.setOnClickListener {
-            val intent = Intent(this@DemoActivity, BannerActivity::class.java)
-            startActivity(intent)
-        }
-        binding.btnSplash.setOnClickListener {
-            val intent = Intent(this@DemoActivity, SplashActivity::class.java)
-            startActivity(intent)
-        }
-        binding.btnInterstitial.setOnClickListener {
-            val intent = Intent(this@DemoActivity, InterActivity::class.java)
-            startActivity(intent)
-        }
-        binding.btnRewardvideo.setOnClickListener {
-            val intent = Intent(this@DemoActivity, RewardActivity::class.java)
-            startActivity(intent)
-        }
-        binding.btnNative.setOnClickListener {
-            val intent = Intent(this@DemoActivity, NativeActivity::class.java)
-            startActivity(intent)
-        }
+        binding.btnBanner.setOnClickListener { startActivity<BannerActivity>() }
+        binding.btnSplash.setOnClickListener { startActivity<SplashActivity>() }
+        binding.btnInterstitial.setOnClickListener { startActivity<InterActivity>() }
+        binding.btnRewardvideo.setOnClickListener { startActivity<RewardActivity>() }
+        binding.btnNative.setOnClickListener { startActivity<NativeActivity>() }
     }
 }

@@ -1,155 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:text="@string/brain_x"
+        android:textColor="@color/black"
         android:textSize="25sp"
-        android:textColor="@color/black"
         android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <TextView
-        android:id="@+id/btn_init"
-        android:text="@string/init_sdk"
-        android:theme="@style/BrainX_Button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.667"
-        app:layout_constraintDimensionRatio="6:1"/>
-
-    <TextView
-        android:id="@+id/btn_banner"
-        android:text="@string/banner"
-        style="@style/BrainX_Button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.667"
-        app:layout_constraintDimensionRatio="6:1"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/btn_splash"
-        android:text="@string/splash"
-        style="@style/BrainX_Button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.667"
-        app:layout_constraintDimensionRatio="6:1"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/btn_rewardvideo"
-        android:text="@string/reward_video"
-        style="@style/BrainX_Button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.667"
-        app:layout_constraintDimensionRatio="6:1"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/btn_interstitial"
-        android:text="@string/interstitial"
-        style="@style/BrainX_Button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.667"
-        app:layout_constraintDimensionRatio="6:1"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/btn_native"
-        android:text="@string/nativead"
-        style="@style/BrainX_Button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.667"
-        app:layout_constraintDimensionRatio="6:1"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tv_gdpr"
-        android:text="@string/gdpr"
-        android:textColor="@color/black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@id/flow_btns"
-        app:layout_constraintEnd_toStartOf="@id/checkbox_gdpr"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/checkbox_gdpr"
-        android:checked="true"
-        android:layout_width="30dp"
-        android:layout_height="20dp"
-        app:layout_constraintTop_toTopOf="@id/tv_gdpr"
-        app:layout_constraintStart_toEndOf="@id/tv_gdpr"
-        app:layout_constraintEnd_toStartOf="@id/tv_coppa"
-        app:layout_constraintBottom_toBottomOf="@id/tv_gdpr" />
-
-    <TextView
-        android:id="@+id/tv_coppa"
-        android:text="@string/coppa"
-        android:textColor="@color/black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/tv_gdpr"
-        app:layout_constraintStart_toEndOf="@id/checkbox_gdpr"
-        app:layout_constraintEnd_toStartOf="@id/checkbox_coppa"/>
-
-    <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/checkbox_coppa"
-        android:checked="true"
-        android:layout_width="30dp"
-        android:layout_height="20dp"
-        app:layout_constraintTop_toTopOf="@id/tv_coppa"
-        app:layout_constraintStart_toEndOf="@id/tv_coppa"
-        app:layout_constraintEnd_toStartOf="@id/tv_ccpa"
-        app:layout_constraintBottom_toBottomOf="@id/tv_coppa" />
-
-    <TextView
-        android:id="@+id/tv_ccpa"
-        android:text="@string/ccpa"
-        android:textColor="@color/black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/tv_coppa"
-        app:layout_constraintStart_toEndOf="@id/checkbox_coppa"
-        app:layout_constraintEnd_toStartOf="@id/checkbox_ccpa"/>
-
-    <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/checkbox_ccpa"
-        android:checked="true"
-        android:layout_width="30dp"
-        android:layout_height="20dp"
-        app:layout_constraintTop_toTopOf="@id/tv_ccpa"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_ccpa"
-        app:layout_constraintBottom_toBottomOf="@id/tv_ccpa"/>
-
-    <androidx.constraintlayout.helper.widget.Flow
-        android:id="@+id/flow_btns"
-        app:flow_wrapMode="aligned"
-        app:flow_verticalGap="15dp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="50dp"
-        app:constraint_referenced_ids="btn_init, btn_banner, btn_splash, btn_rewardvideo, btn_interstitial, btn_native"
-        app:layout_constraintTop_toBottomOf="@id/tv_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tv_gdpr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gdpr"
+            android:textColor="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkbox_gdpr"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:checked="true" />
+
+        <TextView
+            android:id="@+id/tv_coppa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/coppa"
+            android:textColor="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkbox_coppa"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:checked="true" />
+
+        <TextView
+            android:id="@+id/tv_ccpa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ccpa"
+            android:textColor="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkbox_ccpa"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:checked="true" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/btn_init"
+                android:layout_width="216dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/init_sdk"
+                android:theme="@style/BrainX_Button" />
+
+            <TextView
+                android:id="@+id/btn_banner"
+                style="@style/BrainX_Button"
+                android:layout_width="216dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/banner" />
+
+            <TextView
+                android:id="@+id/btn_splash"
+                style="@style/BrainX_Button"
+                android:layout_width="216dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/splash" />
+
+            <TextView
+                android:id="@+id/btn_rewardvideo"
+                style="@style/BrainX_Button"
+                android:layout_width="216dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/reward_video" />
+
+            <TextView
+                android:id="@+id/btn_interstitial"
+                style="@style/BrainX_Button"
+                android:layout_width="216dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/interstitial" />
+
+            <TextView
+                android:id="@+id/btn_native"
+                style="@style/BrainX_Button"
+                android:layout_width="216dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/nativead" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
