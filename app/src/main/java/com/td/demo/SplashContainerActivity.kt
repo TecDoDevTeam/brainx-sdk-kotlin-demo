@@ -1,30 +1,20 @@
 package com.td.demo
 
-import android.os.Bundle
-import android.widget.FrameLayout
-import androidx.appcompat.app.AppCompatActivity
 import com.td.core.TDError
+import com.td.demo.base.ViewBindingActivity
+import com.td.demo.databinding.ActivitySplashContainerBinding
 import com.td.out.TDSplash
 import com.td.out.TDSplashAd
 import com.td.out.TDSplashAdListener
 import com.td.out.TDSplashConfig
 
-class SplashContainerActivity : AppCompatActivity(), TDSplashAdListener {
+class SplashContainerActivity : ViewBindingActivity<ActivitySplashContainerBinding>(), TDSplashAdListener {
 
     private val splashAd = TDSplashAd(DemoActivity.SPLASH_UNIT_ID, TDSplashConfig())
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash_container)
+    override fun initView(binding: ActivitySplashContainerBinding) {
         splashAd.setListener(this)
-        initView()
         loadSplash()
-    }
-
-    private lateinit var container: FrameLayout
-
-    private fun initView() {
-        container = findViewById(R.id.container_splash)
     }
 
     private fun loadSplash() {
@@ -50,7 +40,7 @@ class SplashContainerActivity : AppCompatActivity(), TDSplashAdListener {
 
     override fun onAdLoaded(ad: TDSplash) {
         Logger.dt(this, "on splash load success")
-        splashAd.show(container)
+        splashAd.show(binding.containerSplash)
     }
 
     override fun onError(error: TDError) {

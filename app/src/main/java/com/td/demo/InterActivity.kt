@@ -1,40 +1,27 @@
 package com.td.demo
 
-import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import com.td.core.TDError
+import com.td.demo.base.ViewBindingActivity
+import com.td.demo.databinding.ActivityInterBinding
 import com.td.out.TDInterstitial
 import com.td.out.TDInterstitialAd
 import com.td.out.TDInterstitialAdListener
 import com.td.out.TDInterstitialConfig
 
-class InterActivity : AppCompatActivity(), TDInterstitialAdListener {
+class InterActivity : ViewBindingActivity<ActivityInterBinding>(), TDInterstitialAdListener {
 
     private val interstitialAd = TDInterstitialAd(DemoActivity.INTER_UNIT_ID, TDInterstitialConfig())
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_inter)
+    override fun initView(binding: ActivityInterBinding) {
         interstitialAd.setListener(this)
-        initView()
-    }
 
-    private fun initView() {
-        findViewById<ImageView>(R.id.btn_back).apply {
-            setOnClickListener { finish() }
+        binding.btnBack.setOnClickListener { finish() }
+        binding.btnLoad.setOnClickListener {
+            interstitialAd.load()
         }
-        findViewById<TextView>(R.id.btn_load).apply {
-            setOnClickListener {
-                interstitialAd.load()
-            }
-        }
-        findViewById<TextView>(R.id.btn_show).apply {
-            setOnClickListener {
-                if (interstitialAd.isReady) {
-                    interstitialAd.show()
-                }
+        binding.btnShow.setOnClickListener {
+            if (interstitialAd.isReady) {
+                interstitialAd.show()
             }
         }
     }
