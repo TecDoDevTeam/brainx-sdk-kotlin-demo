@@ -1,14 +1,8 @@
 package com.td.demo
 
-import android.os.Handler
-import android.os.Looper
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.td.core.TDError
 import com.td.demo.base.ViewBindingActivity
@@ -23,8 +17,6 @@ import com.td.out.TDNativeConfig
 class NativeActivity : ViewBindingActivity<ActivityNativeBinding>(), TDNativeAdListener {
 
     private var nativeAd: TDNativeAd? = null
-
-    private val handler = Handler(Looper.getMainLooper())
 
     override fun initView(binding: ActivityNativeBinding) {
         super.initView(binding)
@@ -71,7 +63,7 @@ class NativeActivity : ViewBindingActivity<ActivityNativeBinding>(), TDNativeAdL
     override fun onAdLoaded(ad: TDNative) {
         when (nativeAd?.renderType) {
             TDNativeConfig.NativeType.TEMPLATE_RENDERING -> nativeAd!!.renderForTemplate(this)
-            TDNativeConfig.NativeType.SELF_RENDERING -> selfRenderNative(nativeAd!!, ad)
+            TDNativeConfig.NativeType.SELF_RENDERING -> selfRenderNativeAd(nativeAd!!, ad)
             else -> { /* should not happened */
             }
         }
@@ -82,66 +74,56 @@ class NativeActivity : ViewBindingActivity<ActivityNativeBinding>(), TDNativeAdL
         Logger.dt(this@NativeActivity, "on native load fail: ${error.msg}")
     }
 
-    private fun selfRenderNative(nativeAd: TDNativeAd, ad: TDNative) {
-        handler.post {
-            formSelfRenderingView(ad) { container, creativeViews, dislikeView ->
-                val result = nativeAd.bindViewsForInteraction(container, creativeViews, dislikeView)
-                Logger.dt(
-                    this@NativeActivity,
-                    "on native self render bind ${if (result) "success" else "fail"}"
-                )
-                if (result) {
-                    binding.containerNative.addView(
-                        container,
-                        LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-                    )
-                }
-            }
-        }
-    }
-
-    private fun formSelfRenderingView(
-        nativeAd: TDNative,
-        formCallback: (container: ViewGroup, creativeViews: List<View>, dislikeView: View) -> Unit
-    ) {
-        val selfRenderingBinding = NativeTemplateBinding.inflate(layoutInflater, binding.containerNative, false)
+    private fun selfRenderNativeAd(tdNativeAd: TDNativeAd, ad: TDNative) {
+        val selfRenderingBinding =
+            NativeTemplateBinding.inflate(layoutInflater, binding.containerNative, false)
         val container = selfRenderingBinding.root
         val creativeViews = mutableListOf<View>()
-        selfRenderingBinding.ivIconNativeTemplate.apply {
-            if (nativeAd.getIcon().isEmpty()) {
-                visibility = View.GONE
-                return@apply
-            }
-            Glide.with(this).load(nativeAd.getIcon()).into(this)
-            creativeViews.add(this)
+
+        if (ad.icon.isEmpty()) {
+            selfRenderingBinding.adIcon.visibility = View.GONE
+        } else {
+            selfRenderingBinding.adIcon.visibility = View.VISIBLE
+            Glide.with(selfRenderingBinding.adIcon)
+                .load(ad.icon)
+                .into(selfRenderingBinding.adIcon)
         }
-        selfRenderingBinding.tvTitleNativeTemplate.apply {
-            text = nativeAd.getTitle()
-            creativeViews.add(this)
+        creativeViews.add(selfRenderingBinding.adIcon)
+
+        selfRenderingBinding.adTitle.text = ad.title
+        creativeViews.add(selfRenderingBinding.adTitle)
+
+        if (ad.description.isEmpty()) {
+            selfRenderingBinding.adDesc.visibility = View.GONE
+        } else {
+            selfRenderingBinding.adDesc.visibility = View.VISIBLE
+            selfRenderingBinding.adDesc.text = ad.description
+            creativeViews.add(selfRenderingBinding.adDesc)
         }
-        selfRenderingBinding.tvDescNativeTemplate.apply {
-            if (nativeAd.getDescription().isEmpty()) {
-                visibility = View.GONE
-                return@apply
-            }
-            text = nativeAd.getDescription()
-            creativeViews.add(this)
+
+        val mediaView = ad.getMediaView(this@NativeActivity)
+        val lp = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        selfRenderingBinding.mediaContainer.addView(mediaView, 0, lp)
+        creativeViews.add(mediaView)
+        if (mediaView.mediaContent.hasVideoContent()) {
+            val vc = mediaView.mediaContent.videoController
+            // you can use the videoController to control video
         }
-        selfRenderingBinding.containerMediaNativeTemplate.apply {
-            addView(nativeAd.getMediaView(this@NativeActivity).apply {
-                creativeViews.add(this)
-            }, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
-        }
-        selfRenderingBinding.btnCtaNativeTemplate.apply {
-            creativeViews.add(this)
-            text = nativeAd.getCTAText()
-        }
-        container.addView(nativeAd.getAdLogoView(this@NativeActivity).apply {
-            creativeViews.add(this)
-        })
+
+        selfRenderingBinding.btnCtaNativeTemplate.text = ad.ctaText
+        creativeViews.add(selfRenderingBinding.btnCtaNativeTemplate)
+
+        val adLogoView = ad.getAdLogoView(this@NativeActivity)
+        selfRenderingBinding.adLogoContainer.addView(adLogoView)
+        creativeViews.add(adLogoView)
+
         val dislikeView = selfRenderingBinding.btnCloseNativeTemplate
 
-        formCallback.invoke(container, creativeViews, dislikeView)
+        val result = tdNativeAd.bindViewsForInteraction(container, creativeViews, dislikeView)
+        Logger.dt(this, "on native self render bind ${if (result) "success" else "fail"}")
+        if (result) {
+            binding.containerNative.addView(container, MATCH_PARENT, MATCH_PARENT)
+        }
     }
 
     override fun onDestroy() {

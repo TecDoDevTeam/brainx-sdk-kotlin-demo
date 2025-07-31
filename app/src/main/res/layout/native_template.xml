@@ -1,91 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/td_white"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/td_white">
 
     <ImageView
         android:id="@+id/btn_close_native_template"
-        android:src="@drawable/td_icon_close_with_bg"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_gravity="top|end"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"/>
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/td_icon_close_with_bg" />
 
     <LinearLayout
-        android:gravity="center_horizontal"
-        android:padding="15dp"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="15dp">
 
         <TextView
             android:id="@+id/btn_cta_native_template"
-            android:text="Install"
-            android:gravity="center"
-            android:textSize="15sp"
-            android:textColor="@color/td_white"
-            android:background="@drawable/td_bg_blue_all_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:paddingVertical="10dp"/>
+            android:background="@drawable/td_bg_blue_all_4"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:textColor="@color/td_white"
+            android:textSize="15sp"
+            tools:text="Install" />
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/iv_icon_native_template"
+                android:id="@+id/ad_icon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical" />
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:paddingHorizontal="10dp">
 
                 <TextView
-                    android:id="@+id/tv_title_native_template"
-                    android:text="testtesttest testtest testtest tetststetstteststsetststsets"
-                    android:gravity="center_vertical"
-                    android:textSize="15sp"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/td_black"
+                    android:id="@+id/ad_title"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:textColor="@color/td_black"
+                    android:textSize="15sp"
+                    tools:text="Ad Title" />
 
                 <TextView
-                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_desc_native_template"
-            android:text="testest testtetsesttest testestestetest testest testtetsesttest testestestetesttestest testtetsesttest testestestetest testtesttesttest"
-            android:textSize="12sp"
-            android:maxLines="2"
-            android:ellipsize="end"
+            android:id="@+id/ad_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="15dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="12sp"
+            tools:text="ad desc" />
 
         <FrameLayout
-            android:id="@+id/container_media_native_template"
+            android:id="@+id/media_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="15dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1">
+
+            <FrameLayout
+                android:id="@+id/ad_logo_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
 
 
     </LinearLayout>
